@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather2/bloc/weather_bloc_bloc.dart';
 import 'package:weather2/screens/home_screen.dart';
+import 'dart:developer' as developer;
 
 void main() {
   runApp(const MainApp());
@@ -18,6 +19,7 @@ class MainApp extends StatelessWidget {
         home: FutureBuilder(
             future: _determinePosition(),
             builder: (context, snap) {
+              developer.log('log me ' + _determinePosition().toString(), name: 'my.app.category');
               if (snap.hasData) {
                 return BlocProvider<WeatherBlocBloc>(
                   create: (context) => WeatherBlocBloc()
@@ -73,5 +75,7 @@ Future<Position> _determinePosition() async {
 
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
-  return await Geolocator.getCurrentPosition();
+  var position = await Geolocator.getCurrentPosition();
+  developer.log('log me ' + position.toString(), name: 'my.app.category');
+  return position;
 }
